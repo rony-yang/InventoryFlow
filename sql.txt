@@ -1,0 +1,46 @@
+﻿CREATE TABLE transaction (
+    slipNumber TEXT PRIMARY KEY NOT NULL,
+    category INTEGER NOT NULL,
+    transactionDate DATE NOT NULL,
+    productName TEXT NOT NULL,
+    transactionQuantity INTEGER NOT NULL,
+    price INTEGER NOT NULL,
+    amount INTEGER NOT NULL,
+    VAT INTEGER NOT NULL,
+    totalPrice INTEGER NOT NULL
+);
+
+
+CREATE TABLE customer (
+    customerNumber TEXT NOT NULL PRIMARY KEY,
+    customerName TEXT NOT NULL,
+    customerTel TEXT NOT NULL,
+    personInCharge TEXT,
+    customerEtc TEXT CHECK(length(customerEtc) <= 5000)
+);
+
+
+CREATE TABLE members (
+    memberNumber TEXT PRIMARY KEY NOT NULL,
+    memberPassword TEXT NOT NULL,
+    memberName TEXT NOT NULL,
+    phoneNumber TEXT NOT NULL,
+    department TEXT NOT NULL,
+    position TEXT
+);
+
+
+CREATE TABLE product (
+    productNumber TEXT PRIMARY KEY NOT NULL,
+    productName TEXT NOT NULL,
+    price INTEGER NOT NULL,
+    quantity INTEGER NOT NULL
+);
+
+
+CREATE TABLE board (
+    boardNumber TEXT NOT NULL PRIMARY KEY,
+    boardTitle TEXT NOT NULL CHECK(length(boardTitle) <= 50),
+    boardContext TEXT NOT NULL CHECK(length(boardContext) <= 5000),
+    boardDate DATE NOT NULL
+);

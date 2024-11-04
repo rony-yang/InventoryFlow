@@ -64,5 +64,18 @@ namespace InventoryFlow
                 }
             }
         }
+
+        private void login_memberPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            registerForm registerFormInstance = new registerForm();
+            this.Hide(); // 기존 품 숨기기
+            registerFormInstance.Show(); // 새로운 폼 열기
+            registerFormInstance.FormClosed += (s, args) => this.Close();
+        }
     }
 }
