@@ -11,9 +11,9 @@ using System.Data.SQLite;
 
 namespace InventoryFlow
 {
-    public partial class registerForm : Form
+    public partial class RegisterForm : Form
     {
-        public registerForm()
+        public RegisterForm()
         {
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
@@ -121,7 +121,7 @@ namespace InventoryFlow
                 }
             }
             MessageBox.Show("회원가입 성공!");
-            loginForm loginFormInstance = new loginForm();
+            LoginForm loginFormInstance = new LoginForm();
             this.Hide(); // 기존 품 숨기기
             loginFormInstance.Show(); // 새로운 폼 열기
             loginFormInstance.FormClosed += (s, args) => this.Close();
@@ -129,7 +129,7 @@ namespace InventoryFlow
 
         private void button1_Click(object sender, EventArgs e)
         {
-            loginForm loginFormInstance = new loginForm();
+            LoginForm loginFormInstance = new LoginForm();
             this.Hide(); // 기존 품 숨기기
             loginFormInstance.Show(); // 새로운 폼 열기
             loginFormInstance.FormClosed += (s, args) => this.Close();

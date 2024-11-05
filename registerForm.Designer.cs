@@ -1,6 +1,6 @@
 ﻿namespace InventoryFlow
 {
-    partial class registerForm
+    partial class RegisterForm
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.

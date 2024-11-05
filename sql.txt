@@ -39,7 +39,7 @@ CREATE TABLE product (
 
 
 CREATE TABLE board (
-    boardNumber TEXT NOT NULL PRIMARY KEY,
+    boardNumber INTEGER NOT NULL PRIMARY KEY,
     boardTitle TEXT NOT NULL CHECK(length(boardTitle) <= 50),
     boardContext TEXT NOT NULL CHECK(length(boardContext) <= 5000),
     boardDate DATE NOT NULL

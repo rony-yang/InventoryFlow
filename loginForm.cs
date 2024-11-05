@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace InventoryFlow
 {
-    public partial class loginForm : Form
+    public partial class LoginForm : Form
     {
-        public loginForm()
+        public LoginForm()
         {
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
@@ -56,6 +56,10 @@ namespace InventoryFlow
                     if (count == 1)
                     {
                         MessageBox.Show("로그인 성공!", "성공");
+                        MainForm mainFormInstance = new MainForm();
+                        this.Hide(); // 기존 품 숨기기
+                        mainFormInstance.Show(); // 새로운 폼 열기
+                        mainFormInstance.FormClosed += (s, args) => this.Close();
                     }
                     else
                     {
@@ -72,7 +76,7 @@ namespace InventoryFlow
 
         private void button1_Click(object sender, EventArgs e)
         {
-            registerForm registerFormInstance = new registerForm();
+            RegisterForm registerFormInstance = new RegisterForm();
             this.Hide(); // 기존 품 숨기기
             registerFormInstance.Show(); // 새로운 폼 열기
             registerFormInstance.FormClosed += (s, args) => this.Close();
