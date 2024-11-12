@@ -16,7 +16,6 @@ namespace InventoryFlow
         public BoardDetailForm()
         {
             InitializeComponent();
-            this.WindowState = FormWindowState.Maximized;
         }
 
         private void BoardDetailForm_Load(object sender, EventArgs e)
@@ -26,7 +25,8 @@ namespace InventoryFlow
 
         public void SetDetails(string boardNumber)
         {
-            string selectQuery = "SELECT boardNumber, boardTitle, boardDate, boardContext FROM board WHERE boardNumber = @boardNumber;";
+            string selectQuery = "SELECT boardNumber, boardTitle, boardDate, boardContext " +
+                "FROM board WHERE boardNumber = @boardNumber;";
 
             dataGridView2.Columns.Clear();
             dataGridView2.RowHeadersWidth = 50; // 행 머리글 가로넓이
@@ -34,6 +34,7 @@ namespace InventoryFlow
             dataGridView2.AllowUserToAddRows = false; // 사용자가 수동으로 행 추가하는것 방지
             dataGridView2.AllowUserToDeleteRows = false; // 사용자가 직접 삭제하는것 방지
             dataGridView2.AutoGenerateColumns = false; // 열, 너비를 사용자 정의로 사용
+            dataGridView2.DefaultCellStyle.WrapMode = DataGridViewTriState.True; // 글이 여러줄 일때 자동 띄워쓰기 기능
 
             var columnField = new DataGridViewTextBoxColumn
             {
@@ -69,7 +70,9 @@ namespace InventoryFlow
                             dataGridView2.Rows.Add("번호", boardNumber);
                             dataGridView2.Rows.Add("작성일", reader["boardDate"].ToString());
                             dataGridView2.Rows.Add("제목", reader["boardTitle"].ToString());
-                            dataGridView2.Rows.Add("내용", reader["boardContext"].ToString());
+                            //dataGridView2.Rows.Add("내용", reader["boardContext"].ToString());
+                            int contentRowIndex = dataGridView2.Rows.Add("내용", reader["boardContext"].ToString());
+                            dataGridView2.Rows[contentRowIndex].Height = 350; // 내용 칸 높이 설정
                         }
                         else
                         {

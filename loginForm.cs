@@ -39,8 +39,8 @@ namespace InventoryFlow
             string memberNumber = login_memberNumber.Text;
             string memberPassword = login_memberPassword.Text;
 
-            string query = "SELECT COUNT(1) FROM members " +
-                "WHERE memberNumber = @memberNumber AND memberPassword = @memberPassword;";
+            string query = "SELECT memberName FROM members " +
+                           "WHERE memberNumber = @memberNumber AND memberPassword = @memberPassword;";
 
             using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
             {
@@ -51,10 +51,12 @@ namespace InventoryFlow
                     command.Parameters.AddWithValue("@memberNumber", memberNumber);
                     command.Parameters.AddWithValue("@memberPassword", memberPassword);
 
-                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    var memberName = command.ExecuteScalar()?.ToString();
 
-                    if (count == 1)
+                    if (!string.IsNullOrEmpty(memberName))
                     {
+                        LoginSession.LoggedInMemberName = memberName; // 로그인정보 세션에 저장
+
                         MessageBox.Show("로그인 성공!", "성공");
                         MainForm mainFormInstance = new MainForm();
                         this.Hide(); // 기존 품 숨기기

@@ -17,6 +17,19 @@ namespace InventoryFlow
         {
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
+
+            ToolStripLabel loginStatusLabel = new ToolStripLabel() // 로그인 상태바 생성 및 글자 정렬
+            {
+                TextAlign = ContentAlignment.MiddleCenter,
+                Alignment = ToolStripItemAlignment.Right
+            }; 
+
+            loginStatusLabel.Text = !string.IsNullOrEmpty(LoginSession.LoggedInMemberName)
+                ? $"{LoginSession.LoggedInMemberName} 님 로그인 중입니다."
+                : "에러! 먼저 로그인을 해주세요.";
+
+            menuStrip1.Items.Add(loginStatusLabel);
+
             tabControl1.Dock = DockStyle.Fill; // 탭 화면에 꽉차게 설정
         }
         
@@ -100,6 +113,7 @@ namespace InventoryFlow
             }
         }
 
+        // 개별 셀 클릭 시 상세보기로 전환 - BoardDetailForm
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -107,10 +121,14 @@ namespace InventoryFlow
                 string boardNumber = dataGridView1.Rows[e.RowIndex].Cells["boardNumber"].Value.ToString();
         
                 BoardDetailForm detailForm = new BoardDetailForm();
-                detailForm.SetDetails(boardNumber); 
+                detailForm.SetDetails(boardNumber); // 글번호로 연결
                 detailForm.ShowDialog();
            }
         }
 
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
     }
 }
