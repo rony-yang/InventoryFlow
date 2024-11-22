@@ -80,6 +80,7 @@
             // 
             this.box_memberPassword.Location = new System.Drawing.Point(1407, 484);
             this.box_memberPassword.Name = "box_memberPassword";
+            this.box_memberPassword.PasswordChar = '*';
             this.box_memberPassword.Size = new System.Drawing.Size(200, 35);
             this.box_memberPassword.TabIndex = 3;
             this.box_memberPassword.TextChanged += new System.EventHandler(this.box_memberPassword_TextChanged);
@@ -197,7 +198,7 @@
             this.label8.TabIndex = 14;
             this.label8.Text = "이미 회원가입을 했다면?";
             // 
-            // registerForm
+            // RegisterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -218,7 +219,7 @@
             this.Controls.Add(this.box_memberNumber);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "registerForm";
+            this.Name = "RegisterForm";
             this.Text = "회원가입";
             this.Load += new System.EventHandler(this.registerForm_Load);
             this.ResumeLayout(false);

@@ -18,6 +18,8 @@ namespace InventoryFlow
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
 
+            TabsPermission(); // 권한 값에 따라 탭 보여주기 설정
+
             ToolStripLabel loginStatusLabel = new ToolStripLabel() // 로그인 상태바 생성 및 글자 정렬
             {
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -28,16 +30,66 @@ namespace InventoryFlow
                 ? $"{LoginSession.LoggedInMemberName} 님 로그인 중입니다."
                 : "에러! 먼저 로그인을 해주세요.";
 
-            menuStrip1.Items.Add(loginStatusLabel);
+            menuStrip1.Items.Add(loginStatusLabel); // MenuStrip에 로그인 상태 라벨 추가
+
+            ToolStripButton logoutButton = new ToolStripButton // 로그아웃 버튼 생성
+            {
+                Text = "로그아웃",
+                Alignment = ToolStripItemAlignment.Right, // 우측정렬
+                AutoSize = true, // 사이즈 자동 조정
+                BackColor = Color.Blue, // 배경색 설정
+                ForeColor = Color.White, // 글자색 설정
+                Margin = new Padding(0, 0, 20, 0) // 오른쪽 여백 추가
+            };
+
+            logoutButton.Click += LogoutButton_Click; // 로그아웃 버튼 클릭 이벤트 추가
+            menuStrip1.Items.Add(logoutButton); // MenuStrip에 로그아웃 버튼 추가
 
             tabControl1.Dock = DockStyle.Fill; // 탭 화면에 꽉차게 설정
         }
         
+        // 로그아웃 기능
+        private void LogoutButton_Click(object sender, EventArgs e)
+        {
+            // 로그인 세션 초기화 및 로그인 화면으로 이동
+            LoginSession.LoggedInMemberName = null;
+
+            // 로그인 화면 표시
+            LoginForm loginForm = new LoginForm();
+            this.Hide(); // 현재 화면 숨기기
+            loginForm.Show(); // 로그인 화면 표시
+
+            // LoginForm이 닫히면 MainForm도 닫기
+            loginForm.FormClosed += (s, args) => this.Close();
+        }
+
+        // 권한 값에 따라 탭 보여주기 설정
+        private void TabsPermission()
+        {
+            // 일반 사용자: 첫 4개의 탭만 표시
+            if (LoginSession.UserPermission == 1)
+            {
+                // 탭 4 이후로는 삭제
+                while (tabControl1.TabPages.Count > 4)
+                {
+                    tabControl1.TabPages.RemoveAt(4); // RemoveAt(4)를 사용하여 5번째 탭부터 차례대로 제거
+                }
+            }
+            // 관리자 및 최종 관리자: 모든 탭 표시
+            else if (LoginSession.UserPermission == 2 || LoginSession.UserPermission == 3)
+            {
+                while (tabControl1.TabPages.Count < 7) // 현재 탭 갯수 총 7개
+                {
+                    tabControl1.TabPages.Add(new TabPage($"Tab {tabControl1.TabPages.Count + 1}"));
+                }
+            }
+        }
+
 
         private void mainForm_Load(object sender, EventArgs e)
         {
-            InitializeDataGridView();
-            dataGridView1.CellDoubleClick += dataGridView1_CellContentClick; // 글 더블클릭 시 상세내용으로 이동
+            InitializeDataGridView(); // 공지사항 탭
+            dataGridView1.CellDoubleClick += dataGridView1_CellContentClick; // 공지사항 글 더블클릭 시 상세내용으로 이동
 
             try
             {
@@ -52,6 +104,7 @@ namespace InventoryFlow
             }
         }
 
+        // 공지사항 탭 설정
         private void InitializeDataGridView()
         {
             dataGridView1.AllowUserToAddRows = false; // 사용자가 수동으로 행 추가하는것 방지
@@ -130,5 +183,6 @@ namespace InventoryFlow
         {
 
         }
+
     }
 }

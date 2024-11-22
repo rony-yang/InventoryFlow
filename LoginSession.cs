@@ -8,6 +8,10 @@ namespace InventoryFlow
 {
     internal class LoginSession
     {
-        public static string LoggedInMemberName { get; set; } // 로그인 중인 사용자 정보 저장
+        // 로그인 중인 사용자 정보 저장
+        public static string LoggedInMemberName { get; set; }
+
+        // 로그인 중인 사용자 권한 정보
+        public static int UserPermission { get; set; } 
     }
 }

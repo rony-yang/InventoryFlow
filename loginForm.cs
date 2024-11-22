@@ -39,7 +39,7 @@ namespace InventoryFlow
             string memberNumber = login_memberNumber.Text;
             string memberPassword = login_memberPassword.Text;
 
-            string query = "SELECT memberName FROM members " +
+            string query = "SELECT memberName, permission FROM members " +
                            "WHERE memberNumber = @memberNumber AND memberPassword = @memberPassword;";
 
             using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
@@ -51,21 +51,35 @@ namespace InventoryFlow
                     command.Parameters.AddWithValue("@memberNumber", memberNumber);
                     command.Parameters.AddWithValue("@memberPassword", memberPassword);
 
-                    var memberName = command.ExecuteScalar()?.ToString();
-
-                    if (!string.IsNullOrEmpty(memberName))
+                    using (SQLiteDataReader reader = command.ExecuteReader())
                     {
-                        LoginSession.LoggedInMemberName = memberName; // 로그인정보 세션에 저장
+                        if (reader.Read())
+                        {
+                            string memberName = reader["memberName"].ToString(); // 이름
+                            int memberPermission = Convert.ToInt32(reader["permission"]); // 권한
 
-                        MessageBox.Show("로그인 성공!", "성공");
-                        MainForm mainFormInstance = new MainForm();
-                        this.Hide(); // 기존 품 숨기기
-                        mainFormInstance.Show(); // 새로운 폼 열기
-                        mainFormInstance.FormClosed += (s, args) => this.Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("정보를 다시 확인해주세요.", "실패");
+                            if (!string.IsNullOrEmpty(memberName))
+                            {
+                                // 세션에 이름과 권한정보 저장
+                                LoginSession.LoggedInMemberName = memberName;
+                                LoginSession.UserPermission = memberPermission;
+
+                                MessageBox.Show("로그인 성공!", "성공");
+
+                                MainForm mainFormInstance = new MainForm();
+                                this.Hide(); // 현재 폼 숨기기
+                                mainFormInstance.Show(); // 메인 폼 띄우기
+                                mainFormInstance.FormClosed += (s, args) => this.Close();
+                            }
+                            else
+                            {
+                                MessageBox.Show("정보를 다시 확인해주세요.", "실패");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("정보를 다시 확인해주세요.", "실패");
+                        }
                     }
                 }
             }

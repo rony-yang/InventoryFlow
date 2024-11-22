@@ -16,6 +16,9 @@ namespace InventoryFlow
         public BoardDetailForm()
         {
             InitializeComponent();
+            this.Width = 1000;
+            this.Height = 530;
+            this.WindowState = FormWindowState.Normal;
         }
 
         private void BoardDetailForm_Load(object sender, EventArgs e)
